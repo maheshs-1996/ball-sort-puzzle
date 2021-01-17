@@ -1,70 +1,30 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
+import { fetchCollections, handleOnChange } from './components/redux/actions'
 import Card from './components/card/card'
 import './App.css'
 
-export default class App extends Component {
-
-  state = {
-    searchString: '',
-    results: [],
-    favourites: []
-  }
+class App extends Component {
 
   componentDidMount() {
+    // this.props.fetchCollections()
     fetch("https://api.npoint.io/5bcf29685fbbde4056b6")
       .then(response => response.json())
       .then(resp => {
-        this.setState({
-          results: resp
-        })
+        // this.setState({
+        //   results: resp
+        // })
+        this.props.fetchCollections(resp)
       })
   }
 
   handleOnChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
-
-  addToFavourites = (item) => {
-    let { favourites, results } = this.state
-    let isAlreadyExists = favourites.find(fav => fav.id === item.id)
-    if (isAlreadyExists) {
-
-    }
-    else {
-      favourites.push(item)
-    }
-    results = results.map((result) => {
-      if (result.id === item.id) {
-        result['is_fav'] = true
-      }
-      return result
-    })
-    this.setState({
-      results,
-      favourites
-    })
-  }
-
-  removeFromFavourites = (item) => {
-    let { favourites, results } = this.state
-    let updatedFavs = favourites.filter(fav => fav.id !== item.id)
-    results = results.map((result) => {
-      if (result.id === item.id) {
-        delete result['is_fav']
-      }
-      return result
-    })
-    this.setState({
-      favourites: updatedFavs,
-      results
-    })
+    this.props.handleOnChange(e)
   }
 
   render() {
-    const { addToFavourites, removeFromFavourites, state } = this
-    const { searchString, favourites, results } = state
+    const { searchString, favourites, results } = this.props
     const filteredResults = results.filter((result) => result.name.toLowerCase().includes(searchString))
     return (
       <div className="app-container">
@@ -78,7 +38,7 @@ export default class App extends Component {
             {
               // ref to clear
               filteredResults.map((item, index) => (
-                <Card key={index} item={item} addToFavourites={addToFavourites} removeFromFavourites={removeFromFavourites} />
+                <Card key={index} item={item} {...this.props} />
               ))
             }
           </div>
@@ -88,7 +48,7 @@ export default class App extends Component {
                 <h2>Favourites</h2>
                 {
                   favourites.map((item, index) => (
-                    <Card key={index} item={item} addToFavourites={addToFavourites} removeFromFavourites={removeFromFavourites} />
+                    <Card key={index} item={item} {...this.props} />
                   ))
                 }
               </div>
@@ -99,4 +59,17 @@ export default class App extends Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  searchString: state.searchString,
+  results: state.results,
+  favourites: state.favourites
+})
+
+const mapDispatchToProps = dispatch => ({
+  fetchCollections: (resp) => dispatch(fetchCollections(resp)),
+  handleOnChange: event => dispatch(handleOnChange(event))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
 
