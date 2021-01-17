@@ -6,43 +6,31 @@ const INITIAL_STATE = {
 
 const rootReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case 'FETCH_COLLECTIONS' : 
-            // fetch("https://api.npoint.io/5bcf29685fbbde4056b6")
-            // .then(response => response.json())
-            // .then(resp => {
-            //     return {
-            //         ...state,
-            //         results : resp
-            //     }
-            // })
-            // break;
+        case 'FETCH_COLLECTIONS':
             return {
                 ...state,
-                results : action.payload
+                results: action.payload
             }
-        case 'ADD_TO_FAVOURITES' : {
+        case 'ADD_TO_FAVOURITES': {
             let { favourites, results } = state
             let item = action.payload
             let isAlreadyExists = favourites.find(fav => fav.id === item.id)
-            if (isAlreadyExists) {
-        
+            if (!isAlreadyExists) {
+                favourites.push(item)
+                results = results.map((result) => {
+                    if (result.id === item.id) {
+                        result['is_fav'] = true
+                    }
+                    return result
+                })
             }
-            else {
-              favourites.push(item)
-            }
-            results = results.map((result) => {
-              if (result.id === item.id) {
-                result['is_fav'] = true
-              }
-              return result
-            })
             return {
                 ...state,
                 results,
                 favourites
             }
         }
-        case 'REMOVE_FROM_FAVOURITES' : {
+        case 'REMOVE_FROM_FAVOURITES': {
             let { favourites, results } = state
             let item = action.payload
             let updatedFavs = favourites.filter(fav => fav.id !== item.id)
@@ -58,14 +46,14 @@ const rootReducer = (state = INITIAL_STATE, action) => {
                 results
             }
         }
-        case 'HANDLE_ON_CHANGE' : 
+        case 'HANDLE_ON_CHANGE':
             let e = action.payload
             return {
                 ...state,
                 [e.target.name]: e.target.value
 
             }
-        default : return state
+        default: return state
     }
 }
 
