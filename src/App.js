@@ -1,22 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { fetchCollections, handleOnChange } from './components/redux/actions'
+import { fetchCollectionsStart, handleOnChange } from './components/redux/actions'
 import Card from './components/card/card'
 import './App.css'
 
 class App extends Component {
 
   componentDidMount() {
-    // this.props.fetchCollections()
-    fetch("https://api.npoint.io/5bcf29685fbbde4056b6")
-      .then(response => response.json())
-      .then(resp => {
-        // this.setState({
-        //   results: resp
-        // })
-        this.props.fetchCollections(resp)
-      })
+    this.props.fetchCollectionsStart()
   }
 
   handleOnChange = (e) => {
@@ -67,7 +59,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchCollections: (resp) => dispatch(fetchCollections(resp)),
+  fetchCollectionsStart: (resp) => dispatch(fetchCollectionsStart(resp)),
   handleOnChange: event => dispatch(handleOnChange(event))
 })
 

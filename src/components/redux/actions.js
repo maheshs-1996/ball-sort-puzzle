@@ -1,4 +1,8 @@
-export const fetchCollections = (resp) => ({
+export const fetchCollectionsStart = () => ({
+    type:'FETCH_COLLECTIONS_START'
+})
+
+export const fetchCollectionsSuccess = (resp) => ({
     type:'FETCH_COLLECTIONS',
     payload : resp
 })
