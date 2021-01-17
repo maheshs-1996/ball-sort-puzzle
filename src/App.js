@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Card from './components/card/card'
 import './App.css'
 
 export default class App extends Component {
@@ -62,8 +63,9 @@ export default class App extends Component {
   }
 
   render() {
-    const { searchString, favourites, results } = this.state
-    let filteredResults = results.filter((result) => result.name.toLowerCase().includes(searchString))
+    const { addToFavourites, removeFromFavourites, state } = this
+    const { searchString, favourites, results } = state
+    const filteredResults = results.filter((result) => result.name.toLowerCase().includes(searchString))
     return (
       <div className="app-container">
         <h1>My Collection</h1>
@@ -75,19 +77,9 @@ export default class App extends Component {
             }
             {
               // ref to clear
-              filteredResults.map((item, index) => {
-                const { name, imageUrl, is_fav } = item
-                const className = is_fav ? 'card fav' : 'card'
-                return (
-                  <div className={className} key={index}>
-                    <img src={imageUrl} alt={name} class="image" />
-                    <span className="name">{name}</span>
-                    {
-                      is_fav ? (<button className="add" onClick={() => this.removeFromFavourites(item)}>Remove from Favs</button>) : (<button class="add" onClick={() => this.addToFavourites(item)}>Add to Favs</button>)
-                    }
-                  </div>
-                )
-              })
+              filteredResults.map((item, index) => (
+                <Card key={index} item={item} addToFavourites={addToFavourites} removeFromFavourites={removeFromFavourites} />
+              ))
             }
           </div>
           {
@@ -96,11 +88,7 @@ export default class App extends Component {
                 <h2>Favourites</h2>
                 {
                   favourites.map((item, index) => (
-                    <div className="card fav" key={index}>
-                      <img src={item.imageUrl} alt={item.name} class="image" />
-                      <span className="name">{item.name}</span>
-                      <button className="add" onClick={() => this.removeFromFavourites(item)}>Remove from Favs</button>
-                    </div>
+                    <Card key={index} item={item} addToFavourites={addToFavourites} removeFromFavourites={removeFromFavourites} />
                   ))
                 }
               </div>
