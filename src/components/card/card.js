@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addToFavourites, removeFromFavourites } from '../../components/redux/actions'
+import { addToFavourites, removeFromFavourites } from '../../redux/actions'
 
 import './card.css'
 

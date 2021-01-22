@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { fetchCollectionsStart, handleOnChange } from './components/redux/actions'
+import { fetchCollectionsStart, handleOnChange } from './redux/actions'
 import Card from './components/card/card'
 import './App.css'
 
