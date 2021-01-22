@@ -1,4 +1,5 @@
 const INITIAL_STATE = {
+    isFetching: false,
     searchString: '',
     results: [],
     favourites: []
@@ -6,10 +7,16 @@ const INITIAL_STATE = {
 
 const rootReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
+        case 'FETCH_COLLECTIONS_START':
+            return {
+                ...state,
+                isFetching: true
+            }
         case 'FETCH_COLLECTIONS':
             return {
                 ...state,
-                results: action.payload
+                results: action.payload,
+                isFetching: false
             }
         case 'ADD_TO_FAVOURITES': {
             let { favourites, results } = state
