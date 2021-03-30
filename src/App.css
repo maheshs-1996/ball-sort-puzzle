@@ -3,9 +3,56 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  padding: 20px;
+  background-color: #f8f8f8;
+  /* background-image: url('https://licious.darwinbox.in/images/Icons_latest/login-bg.svg'); */
+  background-image: url('https://coolbackgrounds.io/images/backgrounds/index/aqua-d9b59c89.png');
+  background-size: 100%;
+  color: black;
+  font-family: 'Lato', sans-serif;
+  height:95vh;
+  overflow: hidden;
+}
+.input-name{
+  padding: 15px;
+  outline: none;
+  padding: 15px;
+  border-radius: 5px;
+  border: none;
 }
 
-.results-container{
-  width: 100%;
-  display: flex;
+.submit{
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #ffffff;
+  outline: none;
+  border: none;
+  cursor: pointer;
 }
+
+.home{
+
+}
+
+.logo-container img{
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.flex{
+  display: flex;
+  align-items: center;
+}
+
+.option{
+  margin-left: 20px;
+}
+
+.quiz{
+  margin-top: 100px;
+  width: 80%;
+  text-align: left;
+  padding: 50px 200px;
+}
+
