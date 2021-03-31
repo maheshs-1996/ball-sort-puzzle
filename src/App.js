@@ -2,20 +2,51 @@ import React, { Component } from 'react'
 import './App.css'
 
 const Home = (props) => {
-  const { questions, name, handleChange, nameSubmit } = props
+  const { questions, name, handleChange, nameSubmit, error } = props
   return (
     <div className="home">
       <h1><strong>Javascript Sample Quiz</strong></h1>
-      <h5>*There will be {questions.length} questions*</h5>
+      <div className="note">*There will be {questions.length} questions*</div>
       <h2>Please enter your name to proceed</h2>
-      <input type="text" className="input-name" name="name" value={name} onChange={(e) => handleChange(e)} /><br />
+      {
+        error ? <> <div class="error-msg">{error}</div><br /></> : null
+      }
+      <input autoComplete='off' type="text" className="input-name" name="name" value={name} onChange={(e) => handleChange(e)} /><br />
       <button className="submit" onClick={nameSubmit}>Submit</button>
     </div>
   )
 }
 
+const ReviewAnswers = (props) => {
+  const { questions, answers } = props
+  return (
+    <table className="review-comp">
+      <tr>
+        <th>Sl No</th>
+        <th>Question</th>
+        <th>Selected Answer</th>
+        <th>Correct Answer</th>
+      </tr>
+      {
+        questions.map((q, i) => {
+          const { choosed_answer, correct_answer } = answers[i]
+          const class_name = choosed_answer === correct_answer ? 'review green' : 'review red'
+          return (
+            <tr className={class_name} key={i}>
+              <td>{i + 1}</td>
+              <td className="q">{q.question}</td>
+              <td className="selected">{q.options[choosed_answer - 1]}</td>
+              <td className="correct">{q.options[correct_answer - 1]}</td>
+            </tr>
+          )
+        })
+      }
+    </table>
+  )
+}
+
 const Quiz = (props) => {
-  const { questions, activeQuestion, answerSubmit } = props
+  const { questions, activeQuestion, answerSubmit, redirectToHome } = props
   const { question, options, ans } = questions[activeQuestion]
   return (
     <div className="quiz">
@@ -31,18 +62,33 @@ const Quiz = (props) => {
             }
           </h2>)
       }</div>
-      <button className="submit" onClick={() => answerSubmit(ans)}>Submit answer</button>
+      <div className="buttons-container flex-column">
+        <button className="submit" onClick={() => answerSubmit(ans)}>Submit answer</button>
+        <button className="submit" onClick={redirectToHome}>Back to home</button>
+      </div>
     </div>
   )
 }
 
 const Result = (props) => {
-  let { answers, name, nameSubmit } = props
-  return (<div className="home">
-    <h1>Hi {name} </h1>
-    <h2>Your score : {answers.filter(a => a === true).length}/{answers.length}</h2>
-    <button className="submit" onClick={nameSubmit}>Take quiz again</button>
-  </div>)
+  let { answers, name, nameSubmit, redirectToHome, reviewAnswers, showReviewComponent } = props
+  return (
+    <div className="home">
+      <h1>Hi {name} </h1>
+      <h2>Thank you for taking quiz.</h2>
+      <h2>Your score : {answers.filter(a => a.choosed_answer === a.correct_answer).length}/{answers.length}</h2>
+      <div className="buttons-container flex-column">
+        {
+          !showReviewComponent ? <button className="submit" onClick={reviewAnswers}>Review Answers</button> : null
+        }
+        <button className="submit" onClick={nameSubmit}>Take quiz again</button>
+        <button className="submit" onClick={redirectToHome}>Back to Home</button>
+      </div>
+      {
+        showReviewComponent ? <ReviewAnswers {...props} /> : null
+      }
+    </div>
+  )
 }
 
 class App extends Component {
@@ -119,7 +165,7 @@ class App extends Component {
           'It can be used for both internal and external JavaScript code.',
           'It can be used only for internal JavaScript code.',
           'It can be used only for internal or external JavaScript code that exports a promise.',
-          'It can be used only for external JavaScript code.r',
+          'It can be used only for external JavaScript code.',
           'none of the above'
         ],
         ans: 4
@@ -159,9 +205,11 @@ class App extends Component {
       }
     ],
     name: '',
+    error: null,
     showHomeComponent: true,
     showResultComponent: false,
     showQuiz: false,
+    showReviewComponent: false,
     activeQuestion: 0,
     answers: []
   }
@@ -172,18 +220,48 @@ class App extends Component {
     })
   }
 
+  redirectToHome = () => {
+    this.setState({
+      showHomeComponent: true,
+      showQuiz: false,
+      answers: [],
+      name: '',
+      activeQuestion: 0,
+      showResultComponent: false,
+      showReviewComponent: false
+    })
+  }
+
+  reviewAnswers = () => {
+    this.setState({
+      showReviewComponent: true
+    })
+  }
+
   nameSubmit = () => {
-    if(this.state.name){
+    let { name, questions } = this.state
+    if (name) {
+      questions = questions.sort(() => Math.random() - 0.5)
       this.setState({
         showHomeComponent: false,
         showQuiz: true,
         answers: [],
         activeQuestion: 0,
-        showResultComponent: false
+        showResultComponent: false,
+        showReviewComponent: false,
+        questions,
+        error: null
       })
     }
-    else{
-      alert('Please type a valid name')
+    else {
+      this.setState({
+        error: 'Please enter a name to proceed'
+      })
+      setTimeout(() => {
+        this.setState({
+          error: null
+        })
+      }, 3000)
     }
   }
 
@@ -192,9 +270,11 @@ class App extends Component {
     try {
       ans = document.querySelector('input[name="quiz"]:checked').value;
       let { answers, activeQuestion, questions } = this.state
-      ans = Number(ans) === Number(answerKey) ? true : false
-      answers.push(ans)
-      if (activeQuestion == (questions.length - 1)) { // reached end
+      answers.push({
+        choosed_answer: Number(ans),
+        correct_answer: Number(answerKey)
+      })
+      if (activeQuestion === (questions.length - 1)) { // reached end
         this.setState({
           answers,
           showResultComponent: true,

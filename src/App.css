@@ -1,3 +1,8 @@
+:root {
+  --black:#000000;
+  --red : #e41d36;
+}
+
 .app-container {
   text-align: center;
   display: flex;
@@ -5,12 +10,10 @@
   flex-direction: column;
   padding: 20px;
   background-color: #f8f8f8;
-  /* background-image: url('https://licious.darwinbox.in/images/Icons_latest/login-bg.svg'); */
-  background-image: url('https://coolbackgrounds.io/images/backgrounds/index/aqua-d9b59c89.png');
-  background-size: 100%;
-  color: black;
+  background-image: url('https://thumbs.dreamstime.com/b/white-wood-wall-texture-background-panels-graphic-resources-149622903.jpg');
+  color: var(--black);
   font-family: 'Lato', sans-serif;
-  height:95vh;
+  min-height:95vh;
   overflow: hidden;
 }
 .input-name{
@@ -21,17 +24,31 @@
   border: none;
 }
 
+.note{
+  margin: -10px;
+  font-size: 12px;
+}
+
+.error-msg{
+  color: var(--red);
+  font-weight: bold;
+  font-size: 12px;
+}
+
 .submit{
   margin-top: 20px;
   padding: 10px;
-  background-color: #ffffff;
+  background-color: inherit;
   outline: none;
-  border: none;
+  border-radius: 5px;
   cursor: pointer;
+  transition: 300ms;
+  color: var(--black);
+  border: solid 1px var(--black);
 }
 
-.home{
-
+.submit:hover{
+  box-shadow: 0 3px 6px rgba(0,0,0,.16);
 }
 
 .logo-container img{
@@ -45,6 +62,11 @@
   align-items: center;
 }
 
+.flex-column{
+  display: flex;
+  flex-direction: column;
+}
+
 .option{
   margin-left: 20px;
 }
@@ -54,5 +76,30 @@
   width: 80%;
   text-align: left;
   padding: 50px 200px;
+}
+
+.review-comp{
+  border-collapse: collapse;
+  width: 70%;
+  margin: 30px auto;
+}
+
+td, th{
+  border: solid 1px var(--black);
+  padding: 8px;
+  font-weight: bold;
+}
+
+.green{
+  color: #417505;
+}
+
+.red{
+  color: var(--red);
+}
+
+.buttons-container{
+  width: 250px;
+  margin: 0 auto;
 }
 
