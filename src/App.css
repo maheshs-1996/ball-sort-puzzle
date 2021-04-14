@@ -12,19 +12,50 @@
   overflow: hidden;
 }
 
-.logo{
-  width: 60px;
-  height: 60px;
+.app-wrapper{
+  width: 30%;
+  margin: 0 auto;
 }
 
 .game{
-  width: 500px;
-  height: 500px;
   margin: auto;
-  border: solid 2px black;
+  margin-top: 100px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+}
+
+@media screen and (max-width:700px) {
+  .app-wrapper{
+    width: 40%;
+  }
+}
+
+@media screen and (max-width:600px) {
+  .app-wrapper{
+    width: 60%;
+  }
+}
+
+@media screen and (max-width:500px) {
+  .app-wrapper{
+    width: 100%;
+    margin: 0;
+  }
+
+  .game{
+    margin-top: 50px;
+  }
+  
+  .container{
+    margin: 10px;
+  }
+}
+
+.logo{
+  width: 60px;
+  height: 60px;
 }
 
 .container{
@@ -35,7 +66,7 @@
   justify-content: flex-end;
   align-items: center;
   height: fit-content;
-  margin: 10px;
+  margin: 20px 10px;
   min-width: 32px;
   min-height: 95px;
 }
@@ -50,6 +81,21 @@
   height: 20px;
   border-radius: 50%;
   margin-bottom: 2px;
+}
+
+.margin{
+  margin-bottom: 20px;
+}
+
+.name-container{
+  position: relative;
+}
+
+.name{
+  position: absolute;
+  bottom: -10px;
+  font-size: 10px;
+  margin-left: 10px;
 }
 
 .red{
@@ -80,4 +126,25 @@
   background-color: orange;
 }
 
+.btn{
+  background-color: inherit;
+  padding: 10px;
+  outline: none;
+  border: solid 1px #000000;
+  border-radius: 5px;
+  transition: 300ms;
+  cursor: pointer;
+}
+
+.btn:hover{
+  color: #ffffff;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.btns-container{
+  display: flex;
+  margin: 0 auto;
+  margin-top: 50px;
+  justify-content: space-evenly;
+}
 
