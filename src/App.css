@@ -126,6 +126,14 @@
   background-color: orange;
 }
 
+.lgreen{
+  background-color: lightgreen;
+}
+
+.grey{
+  background-color: grey;
+}
+
 .btn{
   background-color: inherit;
   padding: 10px;

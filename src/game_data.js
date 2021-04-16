@@ -74,6 +74,19 @@ const game_data = [
         ['blue', 'red', 'orange', 'purple'],
         [],
         []
+    ],
+    [
+        ['blue', 'red', 'red', 'yellow'],
+        ['lblue', 'yellow', 'orange', 'lgreen'],
+        ['lblue', 'lblue', 'orange', 'green'],
+        ['yellow', 'orange', 'blue', 'purple'],
+        ['grey', 'blue', 'purple', 'yellow'],
+        ['grey', 'green', 'red', 'lblue'],
+        ['orange', 'green', 'lgreen', 'grey'],
+        ['lgreen', 'red', 'green', 'purple'],
+        ['grey', 'purple', 'lgreen', 'blue'],
+        [],
+        []
     ]
 ]
 
